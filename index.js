@@ -30,13 +30,21 @@ var averageGuesses = document.querySelector('#stats-average-guesses');
 // Event Listeners
 window.addEventListener('load', startGame);
 
-for (var i = 0; i < inputs.length; i++) {
-  inputs[i].addEventListener('keyup', function() { moveToNextInput(event) });
-}
+inputs.forEach(input => {
+  input.addEventListener('keyup', function() { moveToNextInput(event)})
+});
 
-for (var i = 0; i < keyLetters.length; i++) {
-  keyLetters[i].addEventListener('click', function() { clickLetter(event) });
-}
+// for (var i = 0; i < inputs.length; i++) {
+//   inputs[i].addEventListener('keyup', function() { moveToNextInput(event) });
+// }
+
+keyLetters.forEach(letter => {
+  letter.addEventListener('click', function() { clickLetter(event) })
+});
+
+// for (var i = 0; i < keyLetters.length; i++) {
+//   keyLetters[i].addEventListener('click', function() { clickLetter(event) });
+// }
 
 guessButton.addEventListener('click', submitGuess);
 
@@ -79,13 +87,13 @@ function getRandomWord(dataSet) {
 
 function updateInputPermissions() {
   // debugger
-  for(var i = 0; i < inputs.length; i++) {
-    if(!inputs[i].id.includes(`-${currentRow}-`)) {
-      inputs[i].disabled = true;
+  inputs.forEach(input => {
+    if (!input.id.includes(`-${currentRow}-`)) {
+      input.disabled = true;
     } else {
-      inputs[i].disabled = false;
+      input.disabled = false;
     }
-  }
+  })
 
   inputs[0].focus();
 }
