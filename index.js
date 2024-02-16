@@ -23,17 +23,28 @@ var gameOverGuessGrammar = document.querySelector('#game-over-guesses-plural');
 var gameOverMessage = document.querySelector('#game-over-message');
 var gameLostMessage = document.querySelector('#game-lost-message');
 var gameWonMessage = document.querySelector('#game-won-message');
+var totalGames = document.querySelector('#stats-total-games');
+var successPercentage = document.querySelector('#stats-percent-correct');
+var averageGuesses = document.querySelector('#stats-average-guesses');
 
 // Event Listeners
 window.addEventListener('load', startGame);
 
-for (var i = 0; i < inputs.length; i++) {
-  inputs[i].addEventListener('keyup', function() { moveToNextInput(event) });
-}
+inputs.forEach(input => {
+  input.addEventListener('keyup', function() { moveToNextInput(event)})
+});
 
-for (var i = 0; i < keyLetters.length; i++) {
-  keyLetters[i].addEventListener('click', function() { clickLetter(event) });
-}
+// for (var i = 0; i < inputs.length; i++) {
+//   inputs[i].addEventListener('keyup', function() { moveToNextInput(event) });
+// }
+
+keyLetters.forEach(letter => {
+  letter.addEventListener('click', function() { clickLetter(event) })
+});
+
+// for (var i = 0; i < keyLetters.length; i++) {
+//   keyLetters[i].addEventListener('click', function() { clickLetter(event) });
+// }
 
 guessButton.addEventListener('click', submitGuess);
 
@@ -76,13 +87,13 @@ function getRandomWord(dataSet) {
 
 function updateInputPermissions() {
   // debugger
-  for(var i = 0; i < inputs.length; i++) {
-    if(!inputs[i].id.includes(`-${currentRow}-`)) {
-      inputs[i].disabled = true;
+  inputs.forEach(input => {
+    if (!input.id.includes(`-${currentRow}-`)) {
+      input.disabled = true;
     } else {
-      inputs[i].disabled = false;
+      input.disabled = false;
     }
-  }
+  })
 
   inputs[0].focus();
 }
@@ -100,6 +111,17 @@ function clickLetter(e) {
   var activeInput = null;
   var activeIndex = null;
 
+
+  // inputs.forEach(input => {
+  //   if (input.id.includes(`-${currentRow}-`) && !input.value && !activeInput) {
+  //     activeInput = input;
+  //     // activeIndex = inputs.findIndex(input => input === input)
+  //     activeIndex = inputs.indexOf(input);
+  //     console.log('activeIndex', activeIndex)
+  //   }
+  // })
+
+  // iterator doesn't work on nodeLists
   for (var i = 0; i < inputs.length; i++) {
     if(inputs[i].id.includes(`-${currentRow}-`) && !inputs[i].value && !activeInput) {
       activeInput = inputs[i];
@@ -118,7 +140,6 @@ function submitGuess() {
     if (checkForWin()) {
       setTimeout(declareWinner, 1000);
     } else if (currentRow === 6) {
-      console.log('submit guess loser path')
       setTimeout(declareLoser, 1000);
     } else {
       changeRow();
@@ -126,17 +147,17 @@ function submitGuess() {
   } else {
     errorMessage.innerText = 'Not a valid word. Try again!';
   }
-  console.log('current row: ', currentRow)
+  // console.log('current row: ', currentRow)
 }
 
 function checkIsWord() {
   guess = '';
 
-  for(var i = 0; i < inputs.length; i++) {
-    if(inputs[i].id.includes(`-${currentRow}-`)) {
-      guess += inputs[i].value;
+  inputs.forEach(input => {
+    if (input.id.includes(`-${currentRow}-`)) {
+      guess += input.value;
     }
-  }
+  })
 
   return words.includes(guess);
 }
@@ -235,8 +256,6 @@ function changeGameOverText(win) {
     gameOverMessage.innerText = `Oh no :(`;
     gameLostMessage.classList.remove('collapsed');
     gameWonMessage.classList.add('collapsed');
-
-    // gameInformationalText.innerHTML = `You didn't win this round - you should try again!`
   }
 }
 
@@ -285,6 +304,7 @@ function viewGame() {
 }
 
 function viewStats() {
+  renderStats();
   letterKey.classList.add('hidden');
   gameBoard.classList.add('collapsed');
   rules.classList.add('collapsed');
@@ -298,4 +318,17 @@ function viewGameOverMessage() {
   gameOverBox.classList.remove('collapsed')
   letterKey.classList.add('hidden');
   gameBoard.classList.add('collapsed');
+}
+
+function renderStats() {
+  let totalGamesPlayed = gamesPlayed.length;
+  let wonGames = gamesPlayed.filter(game => game.solved);
+  let percentCorrect = (wonGames.length / totalGamesPlayed) * 100;
+  let averageGuessesCalc = (wonGames.reduce((sum, game) => {
+    sum += game.guesses
+    return sum
+  }, 0)) / wonGames.length;
+  totalGames.innerText = totalGamesPlayed;
+  successPercentage.innerText = Math.trunc(percentCorrect);
+  averageGuesses.innerText = averageGuessesCalc;
 }
