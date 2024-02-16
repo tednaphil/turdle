@@ -99,11 +99,11 @@
             <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-5-24"></th>
           </tr>
           <tr id="row-6">
-            <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-5-25"></th>
-            <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-5-26"></th>
-            <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-5-27"></th>
-            <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-5-28"></th>
-            <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-5-29"></th>
+            <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-6-25"></th>
+            <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-6-26"></th>
+            <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-6-27"></th>
+            <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-6-28"></th>
+            <th><input maxlength="1" onkeypress="return /[a-z]/i.test(event.key)" type="text" name="" value="" id="cell-6-29"></th>
           </tr>
         </table>
         <div class="inline">
@@ -156,7 +156,8 @@
       </section>
       <section class="collapsed" id="game-over-section">
         <h3 id="game-over-message">Yay!</h1>
-        <p class="informational-text">You did it! It took you <span id="game-over-guesses-count">/some number/</span> guess<span id="game-over-guesses-plural">es</span> to find the correct word.</p>
+        <p id="game-won-message" class="informational-text">You did it! It took you <span id="game-over-guesses-count">/some number/</span> guess<span id="game-over-guesses-plural">es</span> to find the correct word.</p>
+        <p id="game-lost-message" class="collapsed">You didn't win this round - you should try again!</p>
       </section>
       <nav>
         <button type="button" name="play" class="nav-button active" id="play-button">play</button>
