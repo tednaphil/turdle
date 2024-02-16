@@ -111,6 +111,17 @@ function clickLetter(e) {
   var activeInput = null;
   var activeIndex = null;
 
+
+  // inputs.forEach(input => {
+  //   if (input.id.includes(`-${currentRow}-`) && !input.value && !activeInput) {
+  //     activeInput = input;
+  //     // activeIndex = inputs.findIndex(input => input === input)
+  //     activeIndex = inputs.indexOf(input);
+  //     console.log('activeIndex', activeIndex)
+  //   }
+  // })
+
+  // iterator doesn't work on nodeLists
   for (var i = 0; i < inputs.length; i++) {
     if(inputs[i].id.includes(`-${currentRow}-`) && !inputs[i].value && !activeInput) {
       activeInput = inputs[i];
@@ -142,11 +153,11 @@ function submitGuess() {
 function checkIsWord() {
   guess = '';
 
-  for(var i = 0; i < inputs.length; i++) {
-    if(inputs[i].id.includes(`-${currentRow}-`)) {
-      guess += inputs[i].value;
+  inputs.forEach(input => {
+    if (input.id.includes(`-${currentRow}-`)) {
+      guess += input.value;
     }
-  }
+  })
 
   return words.includes(guess);
 }
