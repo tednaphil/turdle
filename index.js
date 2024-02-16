@@ -23,6 +23,9 @@ var gameOverGuessGrammar = document.querySelector('#game-over-guesses-plural');
 var gameOverMessage = document.querySelector('#game-over-message');
 var gameLostMessage = document.querySelector('#game-lost-message');
 var gameWonMessage = document.querySelector('#game-won-message');
+var totalGames = document.querySelector('#stats-total-games');
+var successPercentage = document.querySelector('#stats-percent-correct');
+var averageGuesses = document.querySelector('#stats-average-guesses');
 
 // Event Listeners
 window.addEventListener('load', startGame);
@@ -118,7 +121,6 @@ function submitGuess() {
     if (checkForWin()) {
       setTimeout(declareWinner, 1000);
     } else if (currentRow === 6) {
-      console.log('submit guess loser path')
       setTimeout(declareLoser, 1000);
     } else {
       changeRow();
@@ -126,7 +128,7 @@ function submitGuess() {
   } else {
     errorMessage.innerText = 'Not a valid word. Try again!';
   }
-  console.log('current row: ', currentRow)
+  // console.log('current row: ', currentRow)
 }
 
 function checkIsWord() {
@@ -235,8 +237,6 @@ function changeGameOverText(win) {
     gameOverMessage.innerText = `Oh no :(`;
     gameLostMessage.classList.remove('collapsed');
     gameWonMessage.classList.add('collapsed');
-
-    // gameInformationalText.innerHTML = `You didn't win this round - you should try again!`
   }
 }
 
@@ -285,6 +285,7 @@ function viewGame() {
 }
 
 function viewStats() {
+  renderStats();
   letterKey.classList.add('hidden');
   gameBoard.classList.add('collapsed');
   rules.classList.add('collapsed');
@@ -298,4 +299,17 @@ function viewGameOverMessage() {
   gameOverBox.classList.remove('collapsed')
   letterKey.classList.add('hidden');
   gameBoard.classList.add('collapsed');
+}
+
+function renderStats() {
+  let totalGamesPlayed = gamesPlayed.length;
+  let wonGames = gamesPlayed.filter(game => game.solved);
+  let percentCorrect = (wonGames.length / totalGamesPlayed) * 100;
+  let averageGuessesCalc = (wonGames.reduce((sum, game) => {
+    sum += game.guesses
+    return sum
+  }, 0)) / wonGames.length;
+  totalGames.innerText = totalGamesPlayed;
+  successPercentage.innerText = Math.trunc(percentCorrect);
+  averageGuesses.innerText = averageGuessesCalc;
 }
